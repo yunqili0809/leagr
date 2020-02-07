@@ -40,12 +40,36 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(155))
     last_name = db.Column(db.String(155))
+    phone = db.Column(db.String(20))
+    address = db.Column(db.Text)
+    about = db.Column(db.Text)
     email = db.Column(db.String(255), unique=True)
+    image = db.Column(db.String(125))
     password = db.Column(db.String(255))
-    active = db.Column(db.Boolean())
+    #toggles
+    active = db.Column(db.Boolean(), default=True)
+    public_profile = db.Column(db.Boolean(), default=True)
+    #dates
     confirmed_at = db.Column(db.DateTime())
+    last_seen = db.Column(db.DateTime(), default=None)
     posts = db.relationship('Post', backref='user', lazy='dynamic')
+
     
+    #Dunder Method
+    def __repr__(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return super().__repr__()
+    
+    @property
+    def imgsrc(self):
+        if self.image:
+            return uploaded_images.url(f"{self.id}/{self.image}")
+        else:
+            return None
+
+
     roles = db.relationship(
         'Role',
         secondary=roles_users,

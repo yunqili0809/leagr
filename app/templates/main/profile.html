@@ -1,0 +1,73 @@
+{% extends "base.html" %} 
+
+{% block linkitem %}blankpage-link{% endblock %}
+{% block title %}Blank Page{% endblock %} 
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"> {{user.first_name}} {{user.last_name}}</h1>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+      <!--Name, About, Img-->
+    <div class="col-6">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary"><img class="img-profile rounded-circle" src="{{ current_user.imgsrc }}" width="15%" height="15%" style="border-radius: 10px; box-shadow: 2px 2px 5px black">  {{user.first_name}}  {{user.last_name}}</h6>
+        </div>
+        <div class="card-body">
+          {{user.about}}
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <!--Email-->
+      <div class="col-lg-6 mb-4">
+        <div class="card bg-primary text-white shadow">
+          <div class="card-body">
+            Email
+            <div class="text-white-50 small">{{user.email}}</div>
+          </div>
+        </div>
+      </div>
+      <!--Address-->
+      <div class="col-lg-6 mb-4">
+        <div class="card bg-success text-white shadow">
+          <div class="card-body">
+            Address
+            <div class="text-white-50 small">{{user.address}}</div>
+          </div>
+        </div>
+      </div>
+      <!--Phone-->
+      <div class="col-lg-6 mb-4">
+        <div class="card bg-info text-white shadow">
+          <div class="card-body">
+            Phone
+            <div class="text-white-50 small">{{user.phone}}</div>
+          </div>
+        </div>
+      </div>
+      <!--Last time log in-->
+      <div class="col-lg-6 mb-4">
+        <div class="card bg-secondary text-white shadow">
+          <div class="card-body">
+            Last time log in
+            <div class="text-white-50 small">
+              {% if user.last_seen %} 
+                {{ moment(user.last_seen).fromNow() }}
+              {% else %}
+                User has not logging yet
+              {% endif %}</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

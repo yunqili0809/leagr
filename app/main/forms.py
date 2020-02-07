@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields.html5 import EmailField
-from wtforms import validators, StringField, PasswordField, TextAreaField, SubmitField
+from wtforms.fields.html5 import EmailField, TelField
+from wtforms import validators, StringField, PasswordField, TextAreaField, SubmitField,BooleanField
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_ckeditor import CKEditorField
@@ -35,6 +35,7 @@ def CheckNameLength(form, field):
   if len(field.data) < 4:
     raise validators.ValidationError('Name must have more then 3 characters')
 
+
 class PostForm(FlaskForm):
     image = FileField('Image', validators=[
         FileAllowed(['jpg', 'png'], 'Images only!')
@@ -46,11 +47,27 @@ class PostForm(FlaskForm):
             validators.Required(),
             validators.Length(max=80)])        
     body = CKEditorField('Content', validators=[validators.Required()])
-    # tag = QuerySelectField('Tag', query_factory=tags, validators=[validators.Required()])
-    # new_tag = StringField('New Tag')
-    
+    #tag = QuerySelectField('Tag', query_factory=tags, validators=[validators.Required()])
+    #new_tag = StringField('New Tag')
+
+
 class ContactForm(FlaskForm):
+    """ Optional contact form for the home page """
     name = StringField('Your Name:', [validators.DataRequired(), CheckNameLength])
     email = StringField('Your e-mail address:', [validators.DataRequired(), validators.Email('your@email.com')])
     message = TextAreaField('Your message:', [validators.DataRequired()])
     submit = SubmitField('Send Message')
+
+
+class SettingsForm(FlaskForm):
+    """ Modify a user's details and options """
+    first_name = StringField('First name', [validators.DataRequired()])
+    last_name = StringField('Last name', [validators.DataRequired()])
+    about = TextAreaField('About', [validators.Optional()])
+    address = TextAreaField('Address', [validators.Optional()])
+    phone = TelField('Phone', [validators.Optional()])
+    #TODO: add file size validator
+    image = FileField('Image', validators=[
+        FileAllowed(['jpg', 'png'], 'Images only!')
+    ])
+    public_profile = BooleanField("Public profile")
