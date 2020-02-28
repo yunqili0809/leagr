@@ -57,6 +57,10 @@ def create_app(config_name):
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+
+    from .lol import lol as lol_blueprint
+    app.register_blueprint(lol_blueprint)
+
     # custom error handlers, these called functions at the top of the file
     app.register_error_handler(500, crash_page)
     app.register_error_handler(404, page_not_found)
